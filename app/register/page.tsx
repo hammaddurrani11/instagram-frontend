@@ -1,8 +1,32 @@
+"use client"
+
 import { LoginImage, Logo } from "@/public"
 import Image from "next/image"
 import Link from "next/link"
+import { useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
 
 const Register = () => {
+    const { registerUser, loading} = useAuth();
+
+    const [formData, setFormData] = useState({
+        username: "",
+        email: "",
+        password: "",
+    });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        })
+    }
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        registerUser(formData);
+    }
+
     return (
         <div className="flex flex-row px-10 py-10 items-center">
             <div className="w-3/4 border-r border-gray-300">
@@ -18,22 +42,28 @@ const Register = () => {
                 <div>
                     <h4 className="font-medium text-lg mb-2">Sign into Instagram</h4>
 
-                    <form className="flex flex-col gap-5">
+                    <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
 
                         <input
                             type="text"
+                            onChange={handleChange}
+                            name="username"
                             className="w-full border border-gray-300 rounded-md p-4"
                             placeholder="Username"
                         />
 
                         <input
                             type="email"
+                            onChange={handleChange}
+                            name="email"
                             className="w-full border border-gray-300 rounded-md p-4"
                             placeholder="Email Address"
                         />
 
                         <input
                             type="password"
+                            onChange={handleChange}
+                            name="password"
                             className="w-full border border-gray-300 rounded-md p-4"
                             placeholder="Password"
                         />
@@ -41,7 +71,9 @@ const Register = () => {
                         <button
                             type="submit"
                             className="w-full bg-black hover:bg-black/80 text-white py-3 rounded-md cursor-pointer"
-                        >Sign up</button>
+                        >
+                            {loading ? "Signing up..." : "Sign up"}
+                        </button>
                     </form>
                     <Link
                         href={'/login'}
