@@ -2,7 +2,7 @@ import { CommentIcon, LikeIcon, SaveIcon, ShareIcon } from "@/public"
 import Image from "next/image"
 import Link from "next/link"
 
-const PostActions = () => {
+const PostActions = ({ post }: { post: any }) => {
     return (
         <div className="flex flex-row justify-between pt-5 pb-5 border-b border-gray-300">
             <div className="flex flex-row gap-5">

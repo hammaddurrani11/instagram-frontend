@@ -9,7 +9,7 @@ import Profile from './logo/profile.png';
 import Reels from './logo/reels.png';
 import Search from './logo/search.png';
 
-import DisplayPicture from './dp.png';
+import DisplayPicture from './Default_pfp.svg.png';
 import PostImage from './post-image.png';
 
 import LikeIcon from './icons/like.png';

@@ -1,11 +1,14 @@
 "use client";
 
 import React, { useState, useRef } from 'react';
+import { usePost } from '@/hooks/usePost';
 
 const CreatePostForm = () => {
     const [image, setImage] = useState<File | null>(null);
     const [preview, setPreview] = useState<string | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const [caption, setCaption] = useState("");
+    const { handleCreatePost, loading } = usePost();
 
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -23,6 +26,22 @@ const CreatePostForm = () => {
         }
     };
 
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        if (!image || !caption) return;
+
+        const formData = new FormData();
+        formData.append("picture", image);
+        formData.append("caption", caption);
+
+        try {
+            await handleCreatePost(formData);
+
+        } catch (error) {
+            console.error("Error creating post:", error);
+        }
+    };
+
     return (
         <div className="w-full min-h-screen flex items-center justify-center bg-gray-50/50 p-4">
             <div className="w-full max-w-md bg-white border border-gray-100 rounded-3xl shadow-xl overflow-hidden transition-all duration-500 hover:shadow-2xl">
@@ -31,8 +50,7 @@ const CreatePostForm = () => {
                         Create New Post
                     </h2>
 
-                    <form className="flex flex-col gap-6" onSubmit={(e) => e.preventDefault()}>
-                        {/* Custom File Upload Area */}
+                    <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
                         <div className="relative">
                             <input
                                 type="file"
@@ -83,6 +101,9 @@ const CreatePostForm = () => {
                         <div className="flex flex-col gap-2">
                             <textarea
                                 placeholder="Write a caption..."
+                                name="caption"
+                                onChange={(e) => setCaption(e.target.value)}
+                                value={caption}
                                 className="w-full bg-gray-50 border border-gray-100 rounded-2xl p-5 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-400 focus:bg-white outline-none resize-none text-gray-700 transition-all placeholder:text-gray-400 leading-relaxed"
                                 rows={4}
                             />
@@ -92,7 +113,7 @@ const CreatePostForm = () => {
                             type="submit"
                             className="bg-black cursor-pointer text-white rounded-2xl py-5 font-bold shadow-2xl shadow-gray-200 hover:bg-gray-800 hover:shadow-gray-200 transition-all duration-300 transform active:scale-[0.98]"
                         >
-                            Share Post
+                            {loading ? 'Sharing...' : 'Share Post'}
                         </button>
                     </form>
                 </div>
