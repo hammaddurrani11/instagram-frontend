@@ -2,6 +2,7 @@ import { DisplayPicture } from "@/public"
 import Image from "next/image"
 import { useUser } from "@/hooks/useUser";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 const PostHeader = ({ post }: { post: any }) => {
     const { user } = post;
@@ -26,8 +27,10 @@ const PostHeader = ({ post }: { post: any }) => {
     return (
         <div className="flex items-center justify-between py-4 w-full">
             <div className="flex gap-3 items-center">
-                <Image src={userData?.profilePicture || DisplayPicture} alt="display-picture" className="w-10 h-10 rounded-full" />
-                <p className="font-medium text-sm text-black">{userData?.username}</p>
+                <Link href={`/profile/${user}`} className="flex gap-3 items-center">
+                    <Image src={userData?.profilePicture || DisplayPicture} alt="display-picture" className="w-10 h-10 rounded-full" />
+                    <p className="font-medium text-sm text-black">{userData?.username}</p>
+                </Link>
             </div>
             <div className="dropdown dropdown-end">
                 <div tabIndex={0} role="button" className="cursor-pointer">

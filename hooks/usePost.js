@@ -41,9 +41,26 @@ export const usePost = () => {
         }
     }
 
+    const handleGetUserPost = async (userId) => {
+        try {
+            setLoading(true);
+
+            const response = await getUserPost(userId);
+            return response.data;
+        }
+        catch (error) {
+            console.error(error);
+            throw error;
+        }
+        finally {
+            setLoading(false);
+        }
+    }
+
     return {
         handleCreatePost,
         loading,
-        handleGetAllPost
+        handleGetAllPost,
+        handleGetUserPost
     }
 }
