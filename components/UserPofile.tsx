@@ -17,7 +17,7 @@ const UserPofile = ({ userId }: UserProfileProps) => {
         try {
             setLoading(true);
             const response = await handleGetUserPost(userId);
-            setPosts(response.data);
+            setPosts(response);
         }
         catch (error) {
             console.error(error);

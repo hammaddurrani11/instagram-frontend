@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createPost, getAllPost } from "../services/postService";
+import { createPost, getAllPost, getUserPost } from "../services/postService";
 import { useRouter } from "next/navigation";
 
 export const usePost = () => {
@@ -46,7 +46,7 @@ export const usePost = () => {
             setLoading(true);
 
             const response = await getUserPost(userId);
-            return response.data;
+            return response.data.posts;
         }
         catch (error) {
             console.error(error);
