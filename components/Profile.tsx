@@ -3,12 +3,13 @@ import ProfileHeader from "./subComponents/ProfileHeader"
 
 interface ProfileProps {
     posts: any[];
+    user: any;
 }
 
-const Profile = ({ posts }: ProfileProps) => {
+const Profile = ({ posts, user }: ProfileProps) => {
     return (
         <div className="w-2/3 mx-auto">
-            <ProfileHeader />
+            <ProfileHeader user={user} />
             <ProfileContent posts={posts} />
         </div>
     )
